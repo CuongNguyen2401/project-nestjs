@@ -1,9 +1,10 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Gender } from "../enums/gender.enum";
 import { Transform } from "class-transformer";
 import { format } from "date-fns";
 import { IsEmail, IsNotEmpty } from "class-validator";
 import { Status } from "../enums/status.enum";
+import { RefreshToken } from "src/auth/entities/refreshtoken.entity";
 
 
 @Entity('user')
@@ -63,5 +64,7 @@ export class User {
     })
     gender: Gender;
 
+    @OneToMany(() => RefreshToken, refreshToken => refreshToken.user)
+    refreshTokens: RefreshToken[];
 
 }

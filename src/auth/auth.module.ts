@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
-import { UsersModule } from 'src/users/users.module';
 import { JwtModule } from '@nestjs/jwt';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersModule } from 'src/users/users.module';
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
 import { jwtConstants } from './constant';
-
-
+import { RefreshToken } from './entities/refreshtoken.entity';
 
 @Module({
   imports: [
@@ -13,8 +13,9 @@ import { jwtConstants } from './constant';
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: '15m' },
     }),
+    TypeOrmModule.forFeature([RefreshToken]),
   ],
   providers: [AuthService],
   controllers: [AuthController],
