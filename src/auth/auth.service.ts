@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { AppException } from 'src/Exception/AppException';
 import { ErrorCode } from 'src/Exception/ErrorCode';
-import { User } from 'src/users/entities/user.entity';
+import { User } from 'src/module/users/entities/user.entity';
 import { Repository } from 'typeorm';
-import { UsersService } from './../users/users.service';
+import { UsersService } from '../module/users/users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { SignInDto } from './dto/signIn.dto';
 import * as bcrypt from 'bcrypt';
