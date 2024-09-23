@@ -15,35 +15,41 @@ export class User {
 
     @CreateDateColumn()
     @Transform(({ value }) => format(new Date(value), 'dd-MM-yyyy HH:mm:ss.SSS'))
-    createdAt: Date;
+    createdAt?: Date;
 
-    @Column()
-    createdBy: string;
+    @Column({
+        default: 'NotInsertDirectly:)))',
+        nullable: true
+    })
+    createdBy?: string;
 
     @CreateDateColumn()
     @Transform(({ value }) => format(new Date(value), 'dd-MM-yyyy HH:mm:ss.SSS'))
-    modifiedAt: Date;
+    modifiedAt?: Date;
 
-    @Column()
-    modifiedBy: string;
+    @Column({
+        default: 'NotInsertDirectly:)))',
+        nullable: true
+    })
+    modifiedBy?: string;
 
-    @Column()
-    name: string;
+    @Column({ nullable: true })
+    name?: string;
 
-    @Column()
+    @Column({ nullable: true })
     @IsEmail()
-    email: string;
+    email?: string;
 
-    @Column()
+    @Column({ nullable: true })
     @IsNotEmpty()
     @Column({ unique: true })
-    username: string;
+    username?: string;
 
-    @Column()
-    hashPassword: string;
+    @Column({ nullable: true })
+    hashPassword?: string;
 
-    @Column()
-    role: string;
+    @Column({ nullable: true })
+    role?: string;
 
     @Column({
         type: 'enum',
@@ -51,10 +57,10 @@ export class User {
         default: 'Active',
         nullable: true
     })
-    status: Status;
+    status?: Status;
 
-    @Column()
-    age: number;
+    @Column({ nullable: true })
+    age?: number;
 
     @Column({
         type: 'enum',
@@ -62,9 +68,9 @@ export class User {
         default: 'Other',
         nullable: true
     })
-    gender: Gender;
+    gender?: Gender;
 
     @OneToMany(() => RefreshToken, refreshToken => refreshToken.user)
-    refreshTokens: RefreshToken[];
+    refreshTokens?: RefreshToken[];
 
 }
