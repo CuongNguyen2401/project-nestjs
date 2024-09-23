@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
-import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { Repository } from 'typeorm';
+import { UpdateUserDto } from './dto/request/update-user.dto';
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
@@ -17,10 +17,18 @@ export class UsersService {
     return this.usersRepository.findOne({ where: { username } });
   }
 
-  findAll(): Promise<User[]> {
-    return this.usersRepository.find();
+  async findAll(current: number, pageSize: number, sort: string): Promise<{ total: number; users: User[] }> {
+    const [users, total] = await this.usersRepository.findAndCount({
+      skip: (current - 1) * pageSize,
+      take: pageSize,
+      order: {
+        [sort]: 'ASC', 
+      },
+    });
+  
+    return { total, users }; 
   }
-
+  
   hashPassword(password: string): Promise<string> {
     const saltOrRounds = 10;
     const randomPassword = password;

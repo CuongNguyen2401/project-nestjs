@@ -4,25 +4,17 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './module/users/users.module';
+import { databaseConfig } from './config/config.database';
 
 
 @Module({
   imports: [
     UsersModule,
     AuthModule,
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: process.env.DB_HOST,
-      port: parseInt(process.env.DB_PORT, 10) || 3360,
-      username: process.env.DB_USERNAME || 'phuccuong',
-      password: process.env.DB_PASSWORD || '',
-      database: process.env.DB_DATABASE || 'nestjs-project',
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true,
-    }),
+    TypeOrmModule.forRoot(databaseConfig),
   ],
   controllers: [AppController],
   providers: [AppService],
-})
+}) 
 
 export class AppModule {}
